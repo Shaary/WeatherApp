@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.shaary.weatherapp.ForecastDataRepo;
 import com.shaary.weatherapp.ui.AlertUserDialog;
-import com.shaary.weatherapp.ui.ForecastFragment;
+import com.shaary.weatherapp.ui.fragments.ForecastFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,8 +25,13 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class HeadlessFragment extends Fragment {
+public class HeadlessFragment extends Fragment implements ForecastDataRepo{
 
+   public interface ForecastListener {
+        void onForecastRetrieved(String forecast);
+    }
+
+    private ForecastListener listener;
     static String jsonData;
 
     private static final String TAG = HeadlessFragment.class.getSimpleName();
@@ -37,9 +44,11 @@ public class HeadlessFragment extends Fragment {
 
     static Current displayWeather;
 
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        listener = (ForecastListener) activity;
     }
 
     @Override
@@ -131,28 +140,16 @@ public class HeadlessFragment extends Fragment {
 
     }
 
-//    public void refreshOnClick(View view) {
-//        getForecast(latitude, longitude);
-//    }
-//
-//    public void hourlyOnClick(View view) {
-//        List<Hour> hours = Arrays.asList(forecast.getHourlyForecast());
-//
-//        Intent intent  = new Intent(this, HourlyForecastActivity.class);
-//        intent.putExtra("HourlyList", (Serializable) hours);
-//        startActivity(intent);
-//
-//    }
-
+    @Override
+    public Forecast getForecast() {
+        return null;
+    }
 
     //Calls for the forecast
-    private static class ForecastCall extends AsyncTask<Void, Void, String> {
+    private class ForecastCall extends AsyncTask<Void, Void, String> {
 
         @Override
         protected void onPreExecute() {
-//            if (taskCallbacks != null) {
-//                taskCallbacks.onPreExecute();
-//            }
         }
 
         @Override
@@ -167,6 +164,9 @@ public class HeadlessFragment extends Fragment {
                 Response response = client.newCall(request).execute();
                 jsonData = response.body().string();
                 Log.d(TAG, "doInBackground: response " + jsonData);
+//                Gson gson = new Gson();
+//                Forecast forecast = gson.fromJson(jsonData, Forecast.class);
+                //Log.d(TAG, "doInBackground: result " + forecast.getCurrent().getTemperature());
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -187,34 +187,36 @@ public class HeadlessFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String jsonData) {
-            //Parses through json data and sends bundle to ForecastFragment
 
-            Forecast forecast = null;
-            try {
-                forecast = parseForecastData(jsonData);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            listener.onForecastRetrieved(jsonData);
 
-            Current current = forecast.getCurrent();
-
-                displayWeather = new Current(
-                        current.getLocationLabel(),
-                        current.getIcon(),
-                        current.getTime(),
-                        current.getTemperature(),
-                        current.getHumidity(),
-                        current.getPrecipChance(),
-                        current.getSummary(),
-                        current.getTimezone());
-
-                Bundle bundle = new Bundle();
-            bundle.putString("icon", current.getIcon());
-            bundle.putDouble("temp", current.getTemperature());
-
-            ForecastFragment forecastFragment = new ForecastFragment();
-            forecastFragment.setArguments(bundle);
-            Log.d(TAG, "onPostExecute: executed");
+//            //Parses through json data and sends bundle to ForecastFragment
+//            Forecast forecast = null;
+//            try {
+//                forecast = parseForecastData(jsonData);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//
+//            Current current = forecast.getCurrent();
+//
+//                displayWeather = new Current(
+//                        current.getLocationLabel(),
+//                        current.getIcon(),
+//                        current.getTime(),
+//                        current.getTemperature(),
+//                        current.getHumidity(),
+//                        current.getPrecipChance(),
+//                        current.getSummary(),
+//                        current.getTimezone());
+//
+//                Bundle bundle = new Bundle();
+//            bundle.putString("icon", current.getIcon());
+//            bundle.putDouble("temp", current.getTemperature());
+//
+//            ForecastFragment forecastFragment = new ForecastFragment();
+//            forecastFragment.setArguments(bundle);
+//            Log.d(TAG, "onPostExecute: executed");
         }
     }
 
