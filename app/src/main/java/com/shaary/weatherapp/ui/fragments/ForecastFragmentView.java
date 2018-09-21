@@ -1,5 +1,7 @@
 package com.shaary.weatherapp.ui.fragments;
 
+import com.shaary.weatherapp.Weather.Current;
+
 public interface ForecastFragmentView {
 
     void setHumidityText(double humidity);
@@ -8,4 +10,5 @@ public interface ForecastFragmentView {
     void setTemperatureText(double temperature);
     void setTime(String time);
     void setSummaryText(String summary);
+    void updateDisplay(Current current);
 }

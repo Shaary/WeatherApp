@@ -4,23 +4,48 @@ import com.shaary.weatherapp.R;
 
 public class Forecast {
 
-    private Current current;
-    private Hour[] hourlyForecast;
+    private double latitude;
+    private double longitude;
+    private String timezone;
+    private Current currently;
+    private Hour hourly;
+    private Day daily;
 
-    public Current getCurrent() {
-        return current;
+
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setCurrent(Current current) {
-        this.current = current;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
-    public Hour[] getHourlyForecast() {
-        return hourlyForecast;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setHourlyForecast(Hour[] hourlyForecast) {
-        this.hourlyForecast = hourlyForecast;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+
+    public Current getCurrently() {
+        return currently;
+    }
+
+    public HourData[] getHourly() {
+        return hourly.getData();
+    }
+
+    public DayData[] getDaily() {
+        return daily.getData();
     }
 
     public static int getIconId(String iconString) {
@@ -61,4 +86,6 @@ public class Forecast {
         }
         return iconId;
     }
+
+
 }

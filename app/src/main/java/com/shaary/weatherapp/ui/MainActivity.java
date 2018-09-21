@@ -18,7 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class MainActivity extends AppCompatActivity implements HeadlessFragment.ForecastListener {
+public class MainActivity extends AppCompatActivity implements HeadlessFragment.ForecastCallBacks{
 
     private static final String TAG_HEADLESS_FRAGMENT = "headless_fragment";
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -49,87 +49,24 @@ public class MainActivity extends AppCompatActivity implements HeadlessFragment.
     }
 
     @Override
-    public void onForecastRetrieved(String forecast) {
-        Forecast newForecast = null;
-        try {
-            newForecast = parseForecastData(forecast);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        Current current = newForecast.getCurrent();
-
-                Current displayWeather = new Current(
-                        current.getLocationLabel(),
-                        current.getIcon(),
-                        current.getTime(),
-                        current.getTemperature(),
-                        current.getHumidity(),
-                        current.getPrecipChance(),
-                        current.getSummary(),
-                        current.getTimezone());
-
-                double temp = current.getTemperature();
-                Bundle bundle = new Bundle();
-            bundle.putString("icon", current.getIcon());
-            bundle.putString("temp", String.valueOf(temp));
-
-            forecastFragment.setArguments(bundle);
-            Log.d(TAG, "onPostExecute: executed");
+    public void onPreExecute() {
 
     }
 
-    private static Forecast parseForecastData(String jsonData) throws JSONException {
-        Forecast forecast = new Forecast();
-        forecast.setCurrent(getCurrentDetails(jsonData));
-        forecast.setHourlyForecast(getHourlyForecast(jsonData));
-        return forecast;
+    @Override
+    public void onProgressUpdate(int percent) {
+
     }
 
-    private static Current getCurrentDetails(String jsonData) throws JSONException{
-        JSONObject forecast = new JSONObject(jsonData);
-        String timezone = forecast.getString("timezone");
+    @Override
+    public void onCancelled() {
 
-        JSONObject currently = forecast.getJSONObject("currently");
-
-        Current current = new Current();
-
-        current.setHumidity(currently.getDouble("humidity"));
-        current.setTime(currently.getLong("time"));
-        current.setIcon(currently.getString("icon"));
-        current.setLocationLabel("Alcatraz Island, CA");
-        current.setPrecipChance(currently.getDouble("precipProbability"));
-        current.setTemperature(currently.getDouble("temperature"));
-        current.setSummary(currently.getString("summary"));
-        current.setTimezone(timezone);
-
-        Log.i(TAG, "getCurrentDetails: " + timezone);
-        Log.i(TAG, "getCurrentDetails: " + current.getFormattedTime());
-
-        return current;
     }
 
-    private static Hour[] getHourlyForecast(String jsonData) throws JSONException {
-        JSONObject forecast = new JSONObject(jsonData);
-        String timezone = forecast.getString("timezone");
+    @Override
+    public void onPostExecute(Forecast forecast) {
+        Log.d(TAG, "onPostExecute: from main activity " + forecast.getCurrently().getTemperature());
+        forecastFragment.setTemperatureText(forecast.getCurrently().getTemperature());
 
-        JSONObject hourly = forecast.getJSONObject("hourly");
-        JSONArray data = hourly.getJSONArray("data");
-
-        Hour[] hours = new Hour[data.length()];
-
-        for (int i = 0; i < data.length(); i++) {
-            JSONObject jsonHour = data.getJSONObject(i);
-
-            Hour hour = new Hour();
-            hour.setIcon(jsonHour.getString("icon"));
-            hour.setTime(jsonHour.getLong("time"));
-            hour.setTimezone(timezone);
-            hour.setSummary(jsonHour.getString("summary"));
-            hour.setTemperature(jsonHour.getLong("temperature"));
-
-            hours[i] = hour;
-        }
-        return hours;
     }
 }

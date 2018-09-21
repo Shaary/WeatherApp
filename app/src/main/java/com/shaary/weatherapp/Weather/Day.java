@@ -1,15 +1,8 @@
 package com.shaary.weatherapp.Weather;
 
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
-
-public class Hour {
-
+public class Day {
     private String summary;
-    private HourData[] data;
+    private DayData[] data;
 
     public String getSummary() {
         return summary;
@@ -19,7 +12,7 @@ public class Hour {
         this.summary = summary;
     }
 
-    public HourData[] getData() {
+    public DayData[] getData() {
         return data;
     }
 

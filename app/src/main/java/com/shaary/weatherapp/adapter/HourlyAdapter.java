@@ -1,57 +1,31 @@
 package com.shaary.weatherapp.adapter;
 
-import android.content.Context;
-import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
-import com.shaary.weatherapp.R;
-import com.shaary.weatherapp.Weather.Hour;
-import com.shaary.weatherapp.databinding.HourlyListItemBinding;
-
-import java.util.List;
-
 public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.ViewHolder> {
-    private List<Hour> hours;
-    private Context context;
-
-    public HourlyAdapter(List<Hour> hours, Context context) {
-        this.hours = hours;
-        this.context = context;
-    }
 
     @NonNull
     @Override
     public HourlyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        HourlyListItemBinding binding = DataBindingUtil
-                .inflate(LayoutInflater.from(parent.getContext()),
-                        R.layout.hourly_list_item,
-                        parent,
-                        false);
-        return new ViewHolder(binding);
+        return null;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Hour hour = hours.get(position);
-        holder.hourlyListItemBinding.setHour(hour);
+    public void onBindViewHolder(@NonNull HourlyAdapter.ViewHolder holder, int position) {
 
     }
 
     @Override
     public int getItemCount() {
-        return hours.size();
+        return 0;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-        private HourlyListItemBinding hourlyListItemBinding;
-
-        public ViewHolder(HourlyListItemBinding hourlyLayoutBinding) {
-            super(hourlyLayoutBinding.getRoot());
-            hourlyListItemBinding = hourlyLayoutBinding;
+    public class ViewHolder extends RecyclerView.ViewHolder{
+        public ViewHolder(View itemView) {
+            super(itemView);
         }
     }
 }

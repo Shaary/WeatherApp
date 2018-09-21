@@ -49,12 +49,9 @@ public class ForecastFragment extends Fragment implements ForecastFragmentView{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_forecast, container, false);
         ButterKnife.bind(this, view);
 
-        //So far it's method for hardcoded location
-        updateDisplay(current);
         //String temp = getArguments().getString("temp");
         //temperature.setText(temp);
         return view;
@@ -65,12 +62,17 @@ public class ForecastFragment extends Fragment implements ForecastFragmentView{
         super.onCreate(savedInstanceState);
 
         presenter = new ForecastFragmentPresenter(this);
+        //Loads data and sets updateDisplay
+        presenter.loadData();
     }
 
     //TODO: complete the method
-    private void updateDisplay(Current current) {
+    @Override
+    public void updateDisplay(Current current) {
+        setTemperatureText(current.getTemperature());
 
     }
+
 
     @Override
     public void setHumidityText(double humidity) {
@@ -108,9 +110,10 @@ public class ForecastFragment extends Fragment implements ForecastFragmentView{
     @Override
     public void setSummaryText(String summary) {
         this.summary.setText(summary);
-
     }
 
+
+    //TODO: figure out what it's doing
     private String getFormattedValue(String format, Object... args) {
 
         return String.format(Locale.ENGLISH, format, args);
