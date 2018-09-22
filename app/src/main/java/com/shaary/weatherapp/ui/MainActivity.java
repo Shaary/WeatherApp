@@ -37,15 +37,14 @@ public class MainActivity extends AppCompatActivity implements HeadlessFragment.
         fragmentTransaction.add(R.id.place_holder, forecastFragment);
         fragmentTransaction.commit();
 
-        //Call headless fragment
-        headlessFragment = (HeadlessFragment) fragmentManager.findFragmentByTag(TAG_HEADLESS_FRAGMENT);
-        if (headlessFragment == null) {
-            Log.d(TAG, "onCreate: new frag");
-
-            headlessFragment = new HeadlessFragment();
-            fragmentManager.beginTransaction().add(headlessFragment, TAG_HEADLESS_FRAGMENT).commit();
-        }
-
+//        //Call headless fragment
+//        headlessFragment = (HeadlessFragment) fragmentManager.findFragmentByTag(TAG_HEADLESS_FRAGMENT);
+//        if (headlessFragment == null) {
+//            Log.d(TAG, "onCreate: new frag");
+//
+//            headlessFragment = new HeadlessFragment();
+//            fragmentManager.beginTransaction().add(headlessFragment, TAG_HEADLESS_FRAGMENT).commit();
+//        }
     }
 
     @Override

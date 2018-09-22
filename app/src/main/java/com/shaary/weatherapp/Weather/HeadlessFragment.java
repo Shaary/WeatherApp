@@ -21,6 +21,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class HeadlessFragment extends Fragment implements ForecastDataRepo{
+    @Override
+    public Forecast sendForecast() {
+        return null;
+    }
 
 //   public interface ForecastListener {
 //        void onForecastRetrieved(String forecast);
@@ -67,11 +71,6 @@ public class HeadlessFragment extends Fragment implements ForecastDataRepo{
     public void onDetach() {
         super.onDetach();
         forecastCallBacks = null;
-    }
-
-    @Override
-    public Forecast getForecast() {
-        return null;
     }
 
     //Calls for the forecast

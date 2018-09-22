@@ -53,10 +53,10 @@ public class Forecast {
         int iconId = R.drawable.clear_day;
 
         switch (iconString) {
-            case "clear_day":
+            case "clear-day":
                 iconId = R.drawable.clear_day;
                 break;
-            case "clear_night":
+            case "clear-night":
                 iconId = R.drawable.clear_night;
                 break;
             case "rain":

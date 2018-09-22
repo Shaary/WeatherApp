@@ -1,11 +1,10 @@
 package com.shaary.weatherapp.ui.fragments;
 
-
 import android.app.Fragment;
-import android.app.FragmentManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +13,11 @@ import android.widget.TextView;
 
 import com.shaary.weatherapp.R;
 import com.shaary.weatherapp.Weather.Current;
-import com.shaary.weatherapp.Weather.HeadlessFragment;
-
-import java.util.Locale;
+import com.shaary.weatherapp.Weather.Forecast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ForecastFragment extends Fragment implements ForecastFragmentView{
 
     @BindView(R.id.temperatureView) TextView temperature;
@@ -33,13 +27,8 @@ public class ForecastFragment extends Fragment implements ForecastFragmentView{
     @BindView(R.id.precipValue) TextView precipChance;
     @BindView(R.id.timeValue) TextView time;
 
-    //Adds headless fragment to fetch and store data
-    HeadlessFragment headlessFragment;
-
-    private static final String TAG_HEADLESS_FRAGMENT = "headless_fragment";
     public static final String TAG = ForecastFragment.class.getSimpleName();
 
-    private Current current;
     ForecastFragmentPresenter presenter;
 
     public ForecastFragment() {
@@ -52,8 +41,6 @@ public class ForecastFragment extends Fragment implements ForecastFragmentView{
         View view = inflater.inflate(R.layout.fragment_forecast, container, false);
         ButterKnife.bind(this, view);
 
-        //String temp = getArguments().getString("temp");
-        //temperature.setText(temp);
         return view;
     }
 
@@ -68,11 +55,15 @@ public class ForecastFragment extends Fragment implements ForecastFragmentView{
 
     //TODO: complete the method
     @Override
-    public void updateDisplay(Current current) {
+    public void updateDisplay(Forecast forecast) {
+        Current current = forecast.getCurrently();
         setTemperatureText(current.getTemperature());
-
+        setHumidityText(current.getHumidity());
+        setPrecipChanceText(current.getPrecipProbability());
+        setIcon(current.getIcon());
+        setSummaryText(current.getSummary());
+        setTime(current.getFormattedTime(forecast.getTimezone()));
     }
-
 
     @Override
     public void setHumidityText(double humidity) {
@@ -84,20 +75,18 @@ public class ForecastFragment extends Fragment implements ForecastFragmentView{
     public void setPrecipChanceText(int precipChance) {
         String value = getFormattedValue("%d %%", precipChance);
         this.precipChance.setText(value);
-
     }
 
     @Override
-    public void setIcon(String icon) {
-
-        //TODO: set string to icon
+    public void setIcon(int icon) {
+        Drawable drawable = ContextCompat.getDrawable(getActivity(), icon);
+        this.icon.setImageDrawable(drawable);
     }
 
     @Override
     public void setTemperatureText(double temperature) {
         String value = getFormattedValue("%.1f", temperature);
         this.temperature.setText(value);
-
     }
 
     @Override
@@ -112,11 +101,8 @@ public class ForecastFragment extends Fragment implements ForecastFragmentView{
         this.summary.setText(summary);
     }
 
-
-    //TODO: figure out what it's doing
     private String getFormattedValue(String format, Object... args) {
-
-        return String.format(Locale.ENGLISH, format, args);
+        return String.format(format, args);
     }
 
 }
