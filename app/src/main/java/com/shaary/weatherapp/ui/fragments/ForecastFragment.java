@@ -1,19 +1,21 @@
 package com.shaary.weatherapp.ui.fragments;
 
-import android.app.Fragment;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shaary.weatherapp.R;
 import com.shaary.weatherapp.Weather.Current;
 import com.shaary.weatherapp.Weather.Forecast;
+import com.shaary.weatherapp.presenter.ForecastFragmentPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +28,9 @@ public class ForecastFragment extends Fragment implements ForecastFragmentView{
     @BindView(R.id.humidityValue) TextView humidity;
     @BindView(R.id.precipValue) TextView precipChance;
     @BindView(R.id.timeValue) TextView time;
+    @BindView(R.id.hourlyButton) Button hourlyButton;
+
+
 
     public static final String TAG = ForecastFragment.class.getSimpleName();
 
@@ -48,9 +53,9 @@ public class ForecastFragment extends Fragment implements ForecastFragmentView{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        presenter = new ForecastFragmentPresenter(this);
-        //Loads data and sets updateDisplay
-        presenter.loadData();
+//        presenter = new ForecastFragmentPresenter(this);
+//        //Loads data and sets updateDisplay
+//        presenter.loadData();
     }
 
     //TODO: complete the method
@@ -84,16 +89,14 @@ public class ForecastFragment extends Fragment implements ForecastFragmentView{
     }
 
     @Override
-    public void setTemperatureText(double temperature) {
-        String value = getFormattedValue("%.1f", temperature);
-        this.temperature.setText(value);
+    public void setTemperatureText(String temperature) {
+        this.temperature.setText(temperature);
     }
 
     @Override
     public void setTime(String time) {
         String value = getFormattedValue("At %s it will be", time);
         this.time.setText(value);
-
     }
 
     @Override

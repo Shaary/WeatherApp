@@ -1,57 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="8dp"
+    android:paddingEnd="16dp"
+    android:paddingStart="16dp"
+    android:paddingTop="8dp"
+    >
 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/hourlyListView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        tools:background="@color/backgroundColor">
+        android:orientation="horizontal"
+        android:weightSum="11">
 
         <TextView
             android:id="@+id/timeLabel"
-            android:layout_width="80dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:textColor="@android:color/white"
+            android:layout_weight="3"
+            android:textColor="#FFFFFFFF"
             android:textSize="24sp"
+            android:textAlignment="center"
             tools:text="12 PM"/>
 
         <ImageView
             android:id="@+id/iconImageView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/timeLabel"
-            app:srcCompat="@drawable/partly_cloudy" />
-
-        <TextView
-            android:id="@+id/temperatureLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_alignParentTop="false"
-            android:textColor="@android:color/white"
-            android:textSize="24sp"
-            tools:text="100"/>
+            android:layout_weight="1"
+            app:srcCompat="@drawable/partly_cloudy"/>
 
         <TextView
             android:id="@+id/summaryLabel"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/iconImageView"
+            android:layout_weight="4"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:textColor="@android:color/white"
+            android:textColor="#FFFFFFFF"
+            tools:text="Partly cloudy"/>
+
+        <TextView
+            android:id="@+id/temperatureLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:textColor="#FFFFFFFF"
             android:textSize="24sp"
-            tools:text="Partly cloudy" />
-    </RelativeLayout>
-
-
+            android:textAlignment="center"
+            tools:text="100"/>
+    </LinearLayout>
+</RelativeLayout>

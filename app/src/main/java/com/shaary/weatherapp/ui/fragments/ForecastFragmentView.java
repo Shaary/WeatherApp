@@ -7,7 +7,7 @@ public interface ForecastFragmentView {
     void setHumidityText(double humidity);
     void setPrecipChanceText(int precipChance);
     void setIcon(int icon);
-    void setTemperatureText(double temperature);
+    void setTemperatureText(String temperature);
     void setTime(String time);
     void setSummaryText(String summary);
     void updateDisplay(Forecast forecast);

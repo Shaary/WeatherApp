@@ -91,7 +91,7 @@ public class HeadlessFragment extends Fragment implements ForecastDataRepo{
             try {
                 Response response = client.newCall(request).execute();
                 String jsonData = response.body().string();
-                Log.d(TAG, "doInBackground: response " + jsonData);
+                //Log.d(TAG, "doInBackground: response " + jsonData);
                 Gson gson = new Gson();
                 forecast = gson.fromJson(jsonData, Forecast.class);
                 //Log.d(TAG, "doInBackground: result " + forecast.getCurrent().getTemperature());

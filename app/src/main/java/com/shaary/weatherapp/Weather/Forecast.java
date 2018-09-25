@@ -1,8 +1,11 @@
 package com.shaary.weatherapp.Weather;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.shaary.weatherapp.R;
 
-public class Forecast {
+public class Forecast implements Parcelable{
 
     private double latitude;
     private double longitude;
@@ -11,6 +14,27 @@ public class Forecast {
     private Hour hourly;
     private Day daily;
 
+
+    protected Forecast(Parcel in) {
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+        timezone = in.readString();
+        currently = in.readParcelable(Current.class.getClassLoader());
+        hourly = in.readParcelable(Hour.class.getClassLoader());
+        daily = in.readParcelable(Day.class.getClassLoader());
+    }
+
+    public static final Creator<Forecast> CREATOR = new Creator<Forecast>() {
+        @Override
+        public Forecast createFromParcel(Parcel in) {
+            return new Forecast(in);
+        }
+
+        @Override
+        public Forecast[] newArray(int size) {
+            return new Forecast[size];
+        }
+    };
 
     public double getLatitude() {
         return latitude;
@@ -88,4 +112,18 @@ public class Forecast {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
+        dest.writeString(timezone);
+        dest.writeParcelable(currently, flags);
+        dest.writeParcelable(hourly, flags);
+        dest.writeParcelable(daily, flags);
+    }
 }

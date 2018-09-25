@@ -1,12 +1,16 @@
 package com.shaary.weatherapp.Weather;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.shaary.weatherapp.R;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class Current {
+public class Current implements Parcelable{
 
     private int time;
     private String summary;
@@ -14,6 +18,27 @@ public class Current {
     private int precipProbability;
     private double temperature;
     private double humidity;
+
+    protected Current(Parcel in) {
+        time = in.readInt();
+        summary = in.readString();
+        icon = in.readString();
+        precipProbability = in.readInt();
+        temperature = in.readDouble();
+        humidity = in.readDouble();
+    }
+
+    public static final Creator<Current> CREATOR = new Creator<Current>() {
+        @Override
+        public Current createFromParcel(Parcel in) {
+            return new Current(in);
+        }
+
+        @Override
+        public Current[] newArray(int size) {
+            return new Current[size];
+        }
+    };
 
     public int getTime() {
         return time;
@@ -47,8 +72,8 @@ public class Current {
         this.precipProbability = precipProbability;
     }
 
-    public double getTemperature() {
-        return temperature;
+    public String getTemperature() {
+        return new DecimalFormat("#").format(temperature);
     }
 
     public void setTemperature(double temperature) {
@@ -70,5 +95,20 @@ public class Current {
         String timeString = formatter.format(dateTime);
 
         return timeString;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(time);
+        dest.writeString(summary);
+        dest.writeString(icon);
+        dest.writeInt(precipProbability);
+        dest.writeDouble(temperature);
+        dest.writeDouble(humidity);
     }
 }
