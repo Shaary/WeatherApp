@@ -1,6 +1,9 @@
 package com.shaary.weatherapp.adapter;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +23,12 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
 
     private DayData[] dayData;
     private String timezone;
+    private Context context;
 
-    public DailyAdapter(DayData[] dayData, String timezone) {
+    public DailyAdapter(DayData[] dayData, String timezone, Context context) {
         this.dayData = dayData;
         this.timezone = timezone;
+        this.context = context;
     }
 
     @NonNull
@@ -38,8 +43,8 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.dayLabel.setText(getDayOfTheWeek(dayData[position].getTime()));
         holder.temperatureLabel.setText(dayData[position].getTemperatureHigh());
-        //TODO: set icon
-
+        Drawable drawable = ContextCompat.getDrawable(context, dayData[position].getIcon());
+        holder.icon.setImageDrawable(drawable);
     }
 
     @Override

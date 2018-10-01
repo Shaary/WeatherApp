@@ -7,6 +7,9 @@
     <string name="powered_by_dark_sky"><a href="https://darsky.net/poweredby">Powered by Dark Sky</a></string>
     <string name="title_activity_hourly_forecast">HourlyForecastActivity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="forecast_tab">Current Forecast</string>
+    <string name="hourly_tab">Hourly Forecast</string>
+    <string name="daily_tab">Daily Forecast</string>
 </resources>

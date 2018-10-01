@@ -50,8 +50,8 @@ public class HourData implements Parcelable{
         this.summary = summary;
     }
 
-    public String getIcon() {
-        return icon;
+    public int getIcon() {
+        return Forecast.getIconId(icon);
     }
 
     public void setIcon(String icon) {

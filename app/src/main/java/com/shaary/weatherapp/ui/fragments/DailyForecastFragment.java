@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,28 +23,23 @@ import butterknife.ButterKnife;
  */
 public class DailyForecastFragment extends Fragment implements DailyForecastView{
 
-    @BindView(R.id.daily_recycler_view) RecyclerView recyclerView;
+    private static final String TAG = DailyForecastFragment.class.getSimpleName();
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
     DailyAdapter dailyAdapter;
     RecyclerView.LayoutManager layoutManager;
-
-
-    public DailyForecastFragment() {
-        // Required empty public constructor
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_daily_forecast, container, false);
         ButterKnife.bind(this, view);
+        Log.d(TAG, "onCreateView: was called");
         return view;
     }
 
-    //TODO: find what causes the error
     @Override
     public void updateDisplay(Forecast forecast) {
-        dailyAdapter = new DailyAdapter(forecast.getDaily(), forecast.getTimezone());
+        dailyAdapter = new DailyAdapter(forecast.getDaily(), forecast.getTimezone(), getContext());
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(dailyAdapter);

@@ -26,10 +26,6 @@ public class HeadlessFragment extends Fragment implements ForecastDataRepo{
         return null;
     }
 
-//   public interface ForecastListener {
-//        void onForecastRetrieved(String forecast);
-//    }
-
     public interface ForecastCallBacks {
         void onPreExecute();
         void onProgressUpdate(int percent);
@@ -78,6 +74,7 @@ public class HeadlessFragment extends Fragment implements ForecastDataRepo{
 
         @Override
         protected void onPreExecute() {
+            forecastCallBacks.onPreExecute();
         }
 
         @Override
@@ -120,27 +117,4 @@ public class HeadlessFragment extends Fragment implements ForecastDataRepo{
 //       Log.d(TAG, "onPostExecute: executed");
         }
     }
-
-
-    private boolean isNetworkAvailable() {
-        ConnectivityManager manager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-
-        boolean isAvailable = false;
-
-        if (networkInfo != null && networkInfo.isConnected()) {
-            isAvailable = true;
-        }
-        else {
-
-        }
-        return isAvailable;
-    }
-
-    private void alertUserAboutError() {
-        AlertUserDialog alertDialog = new AlertUserDialog();
-        alertDialog.show(getFragmentManager(), "error_dialog");
-
-    }
-
 }

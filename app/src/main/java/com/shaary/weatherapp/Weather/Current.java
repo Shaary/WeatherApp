@@ -15,7 +15,7 @@ public class Current implements Parcelable{
     private int time;
     private String summary;
     private String icon;
-    private int precipProbability;
+    private double precipProbability;
     private double temperature;
     private double humidity;
 
@@ -64,7 +64,7 @@ public class Current implements Parcelable{
         this.icon = icon;
     }
 
-    public int getPrecipProbability() {
+    public double getPrecipProbability() {
         return precipProbability;
     }
 
@@ -107,7 +107,7 @@ public class Current implements Parcelable{
         dest.writeInt(time);
         dest.writeString(summary);
         dest.writeString(icon);
-        dest.writeInt(precipProbability);
+        dest.writeDouble(precipProbability);
         dest.writeDouble(temperature);
         dest.writeDouble(humidity);
     }

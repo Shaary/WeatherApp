@@ -1,10 +1,12 @@
 package com.shaary.weatherapp.ui.fragments;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import com.shaary.weatherapp.R;
 import com.shaary.weatherapp.Weather.Current;
 import com.shaary.weatherapp.Weather.Forecast;
 import com.shaary.weatherapp.presenter.ForecastFragmentPresenter;
+import com.shaary.weatherapp.ui.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,22 +32,33 @@ public class ForecastFragment extends Fragment implements ForecastFragmentView{
     @BindView(R.id.precipValue) TextView precipChance;
     @BindView(R.id.timeValue) TextView time;
     @BindView(R.id.hourlyButton) Button hourlyButton;
+    @BindView(R.id.refreshImageView) ImageView refreshImageView;
 
+    public interface OnImageClickListener {
+        void refreshWeather();
+    }
+
+    OnImageClickListener listener;
 
 
     public static final String TAG = ForecastFragment.class.getSimpleName();
 
     ForecastFragmentPresenter presenter;
 
-    public ForecastFragment() {
-        // Required empty public constructor
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_forecast, container, false);
         ButterKnife.bind(this, view);
+
+        refreshImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshImageView.setVisibility(View.INVISIBLE);
+                listener.refreshWeather();
+                Log.d(TAG, "onClick: is called");
+            }
+        });
 
         return view;
     }
@@ -53,18 +67,20 @@ public class ForecastFragment extends Fragment implements ForecastFragmentView{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        presenter = new ForecastFragmentPresenter(this);
-//        //Loads data and sets updateDisplay
-//        presenter.loadData();
     }
 
-    //TODO: complete the method
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        listener = (OnImageClickListener) context;
+    }
+
     @Override
     public void updateDisplay(Forecast forecast) {
         Current current = forecast.getCurrently();
         setTemperatureText(current.getTemperature());
         setHumidityText(current.getHumidity());
-        setPrecipChanceText(current.getPrecipProbability());
+        setPrecipChanceText((int) current.getPrecipProbability());
         setIcon(current.getIcon());
         setSummaryText(current.getSummary());
         setTime(current.getFormattedTime(forecast.getTimezone()));
@@ -106,6 +122,10 @@ public class ForecastFragment extends Fragment implements ForecastFragmentView{
 
     private String getFormattedValue(String format, Object... args) {
         return String.format(format, args);
+    }
+
+    public void refresh(View view) {
+
     }
 
 }
