@@ -1,6 +1,5 @@
 package com.shaary.weatherapp.ui.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,15 +39,10 @@ public class HourlyForecastFragment extends Fragment implements HourlyForecastVi
 
     @Override
     public void updateDisplay(Forecast forecast) {
-        hourlyAdapter = new HourlyAdapter(forecast.getHourly(), forecast.getTimezone(), getContext());
+        hourlyAdapter = new HourlyAdapter(forecast.getHourly(), forecast.getTimezone());
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(hourlyAdapter);
-
-    }
-
-    @Override
-    public void setHumidityText(double humidity) {
 
     }
 
@@ -58,17 +52,8 @@ public class HourlyForecastFragment extends Fragment implements HourlyForecastVi
     }
 
     @Override
-    public void setTemperatureText(double temperature) {
-
-    }
-
-    @Override
     public void setTime(String time) {
 
     }
 
-    @Override
-    public void setSummaryText(String summary) {
-
-    }
 }

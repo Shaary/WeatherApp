@@ -2,17 +2,12 @@ package com.shaary.weatherapp.Weather;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.shaary.weatherapp.ForecastDataRepo;
-import com.shaary.weatherapp.ui.AlertUserDialog;
 
 import java.io.IOException;
 

@@ -39,7 +39,7 @@ public class DailyForecastFragment extends Fragment implements DailyForecastView
 
     @Override
     public void updateDisplay(Forecast forecast) {
-        dailyAdapter = new DailyAdapter(forecast.getDaily(), forecast.getTimezone(), getContext());
+        dailyAdapter = new DailyAdapter(forecast.getDaily(), forecast.getTimezone());
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(dailyAdapter);

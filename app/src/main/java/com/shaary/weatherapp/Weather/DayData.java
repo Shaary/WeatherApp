@@ -8,23 +8,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class DayData implements Parcelable{
-    private int time;
-    private String summary;
-    private String icon;
+public class DayData extends WeatherData{
+
     private double precipProbability;
     private double temperatureHigh;
     private double temperatureLow;
-    private double humidity;
 
     protected DayData(Parcel in) {
-        time = in.readInt();
-        summary = in.readString();
-        icon = in.readString();
+        super(in);
         precipProbability = in.readDouble();
         temperatureHigh = in.readDouble();
         temperatureLow = in.readDouble();
-        humidity = in.readDouble();
     }
 
     public static final Creator<DayData> CREATOR = new Creator<DayData>() {
@@ -38,30 +32,6 @@ public class DayData implements Parcelable{
             return new DayData[size];
         }
     };
-
-    public int getTime() {
-        return time;
-    }
-
-    public void setTime(int time) {
-        this.time = time;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public int getIcon() {
-        return Forecast.getIconId(icon);
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
 
     public double getPrecipProbability() {
         return precipProbability;
@@ -87,14 +57,6 @@ public class DayData implements Parcelable{
         this.temperatureLow = temperatureLow;
     }
 
-    public double getHumidity() {
-        return humidity;
-    }
-
-    public void setHumidity(double humidity) {
-        this.humidity = humidity;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -102,12 +64,10 @@ public class DayData implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(time);
-        dest.writeString(summary);
-        dest.writeString(icon);
+        super.writeToParcel(dest, flags);
+
         dest.writeDouble(precipProbability);
         dest.writeDouble(temperatureHigh);
         dest.writeDouble(temperatureLow);
-        dest.writeDouble(humidity);
     }
 }

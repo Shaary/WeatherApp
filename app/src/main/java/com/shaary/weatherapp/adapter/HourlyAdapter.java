@@ -20,58 +20,73 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.ViewHolder> {
+public class HourlyAdapter extends BaseAdapter<HourData, HourlyAdapter.ViewHolder> {
 
     private static final String TAG = HourlyAdapter.class.getSimpleName();
-    private HourData[] hours;
-    private String timezone;
-    private Context context;
+//    private HourData[] hours;
+//    private String timezone;
+//    private Context context;
 
-    public HourlyAdapter(HourData[] hours, String timezone, Context context) {
-        this.hours = hours;
-        this.timezone = timezone;
-        this.context = context;
-    }
-
-    @NonNull
-    @Override
-    public HourlyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.hourly_list_item, parent, false);
-        return new HourlyAdapter.ViewHolder(view);
+    public HourlyAdapter(HourData[] hours, String timezone) {
+        super(HourlyAdapter.ViewHolder.class, hours, timezone);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HourlyAdapter.ViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder: is called");
-        holder.summary.setText(hours[position].getSummary());
-        holder.temperature.setText(hours[position].getTemperature());
-        holder.timeLabel.setText(getHour(hours[position].getTime()));
-        Drawable drawable = ContextCompat.getDrawable(context, hours[position].getIcon());
-        holder.icon.setImageDrawable(drawable);
+    public int getLayoutId() {
+        return R.layout.hourly_list_item;
     }
 
-    @Override
-    public int getItemCount() {
-        return hours.length;
-    }
+//    @NonNull
+//    @Override
+//    public HourlyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//        View view = LayoutInflater.from(parent.getContext())
+//                .inflate(R.layout.hourly_list_item, parent, false);
+//        return new HourlyAdapter.ViewHolder(view);
+//    }
+//
+//    @Override
+//    public void onBindViewHolder(@NonNull HourlyAdapter.ViewHolder holder, int position) {
+//        Log.d(TAG, "onBindViewHolder: is called");
+//        holder.summary.setText(hours[position].getSummary());
+//        holder.temperature.setText(hours[position].getTemperature());
+//        holder.timeLabel.setText(getHour(hours[position].getTime()));
+//        Drawable drawable = ContextCompat.getDrawable(context, hours[position].getIcon());
+//        holder.icon.setImageDrawable(drawable);
+//    }
+//
+//    @Override
+//    public int getItemCount() {
+//        return hours.length;
+//    }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends BaseViewHolder<HourData>{
         TextView summary;
         TextView temperature;
         TextView timeLabel;
         ImageView icon;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
+        @Override
+        public void bind(HourData data, int position, String timezone) {
+            temperature.setText(data.getTemperature());
+            summary.setText(data.getSummary());
+            timeLabel.setText(getHour(data.getTime(), timezone));
+            icon.setImageResource(data.getIcon());
+        }
+
+        @Override
+        protected void setViews() {
             summary = itemView.findViewById(R.id.summaryLabel);
             temperature = itemView.findViewById(R.id.temperatureLabel);
             timeLabel = itemView.findViewById(R.id.timeLabel);
             icon = itemView.findViewById(R.id.iconImageView);
         }
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+        }
     }
 
-    private String getHour(int time) {
+    private static String getHour(int time, String timezone) {
         SimpleDateFormat formatter = new SimpleDateFormat("h a");
         formatter.setTimeZone(TimeZone.getTimeZone(timezone));
         return formatter.format(new Date(time*1000));

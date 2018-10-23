@@ -19,52 +19,68 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.zip.Inflater;
 
-public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> {
+public class DailyAdapter extends BaseAdapter<DayData, DailyAdapter.ViewHolder> {
+//
+//    private DayData[] dayData;
+//    private String timezone;
+//    private Context context;
 
-    private DayData[] dayData;
-    private String timezone;
-    private Context context;
-
-    public DailyAdapter(DayData[] dayData, String timezone, Context context) {
-        this.dayData = dayData;
-        this.timezone = timezone;
-        this.context = context;
-    }
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.daily_list_item, parent, false);
-        return new DailyAdapter.ViewHolder(view);
+    public DailyAdapter(DayData[] dayData, String timezone) {
+        super(DailyAdapter.ViewHolder.class, dayData, timezone);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.dayLabel.setText(getDayOfTheWeek(dayData[position].getTime()));
-        holder.temperatureLabel.setText(dayData[position].getTemperatureHigh());
-        Drawable drawable = ContextCompat.getDrawable(context, dayData[position].getIcon());
-        holder.icon.setImageDrawable(drawable);
+    public int getLayoutId() {
+        return R.layout.daily_list_item;
     }
 
-    @Override
-    public int getItemCount() {
-        return dayData.length;
-    }
+//    @NonNull
+//    @Override
+//    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//        View view = LayoutInflater.from(parent.getContext())
+//                .inflate(R.layout.daily_list_item, parent, false);
+//        return new DailyAdapter.ViewHolder(view);
+//    }
+//
+//    @Override
+//    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+//        holder.dayLabel.setText(getDayOfTheWeek(dayData[position].getTime()));
+//        holder.temperatureLabel.setText(dayData[position].getTemperatureHigh());
+//        Drawable drawable = ContextCompat.getDrawable(context, dayData[position].getIcon());
+//        holder.icon.setImageDrawable(drawable);
+//    }
+//
+//    @Override
+//    public int getItemCount() {
+//        return dayData.length;
+//    }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends BaseViewHolder<DayData> {
         TextView dayLabel;
         TextView temperatureLabel;
         ImageView icon;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
+        @Override
+        public void bind(DayData data, int position, String timezone) {
+            dayLabel.setText(getDayOfTheWeek(data.getTime(), timezone));
+            temperatureLabel.setText(data.getTemperatureHigh());
+            icon.setImageResource(data.getIcon());
+
+        }
+
+        @Override
+        protected void setViews() {
             dayLabel = itemView.findViewById(R.id.dayNameLabel);
             temperatureLabel = itemView.findViewById(R.id.temperatureLabel);
             icon = itemView.findViewById(R.id.iconImageView);
+
+        }
+
+        public ViewHolder(View itemView) {
+            super(itemView);
         }
     }
-    public String getDayOfTheWeek(int time) {
+    public static String getDayOfTheWeek(int time, String timezone) {
         SimpleDateFormat formatter = new SimpleDateFormat("EEEE");
         formatter.setTimeZone(TimeZone.getTimeZone(timezone));
         Date dateTime = new Date(time * 1000);
