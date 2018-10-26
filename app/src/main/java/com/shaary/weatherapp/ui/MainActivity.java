@@ -9,8 +9,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.LinearLayout;
 
 import com.shaary.weatherapp.R;
+import com.shaary.weatherapp.Weather.Current;
 import com.shaary.weatherapp.Weather.Forecast;
 import com.shaary.weatherapp.Weather.HeadlessFragment;
 import com.shaary.weatherapp.adapter.SelectionsPagerAdapter;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements HeadlessFragment.
     private FragmentManager fragmentManager;
     private HeadlessFragment headlessFragment;
 
+    @BindView(R.id.main_layout) LinearLayout linearLayout;
     @BindView(R.id.tabs)TabLayout tabLayout;
     @BindView(R.id.pager) ViewPager pager;
 
@@ -47,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements HeadlessFragment.
         } else {
             Forecast forecast = headlessFragment.getForecast();
             setAdapter(forecast);
+            setBackgroundColor(forecast);
         }
     }
 
@@ -70,10 +74,12 @@ public class MainActivity extends AppCompatActivity implements HeadlessFragment.
     public void onPostExecute(Forecast forecast) {
         //Sets adapter with 3 fragments after the data was loaded
         setAdapter(forecast);
+        setBackgroundColor(forecast);
     }
 
     private void setAdapter(Forecast forecast) {
         SelectionsPagerAdapter pagerAdapter =
+
                 new SelectionsPagerAdapter(getSupportFragmentManager(), forecast);
         pager.setOffscreenPageLimit(3);
         pager.setAdapter(pagerAdapter);
@@ -89,6 +95,22 @@ public class MainActivity extends AppCompatActivity implements HeadlessFragment.
         } else {
             alertUserAboutError();
         }
+    }
+
+    private void setBackgroundColor(Forecast forecast) {
+        Current current = forecast.getCurrently();
+        switch (current.getWeather()) {
+            case "cold" :
+                pager.setBackgroundResource(R.drawable.cold_weather_gradient);
+                break;
+            case "hot" :
+                pager.setBackgroundResource(R.drawable.hot_weather_gradient);
+                break;
+            case "mild":
+                pager.setBackgroundResource(R.drawable.mild_weather_gradient);
+                break;
+        }
+
     }
 
     private boolean isNetworkAvailable() {

@@ -101,7 +101,6 @@ public class HeadlessFragment extends Fragment implements ForecastDataRepo{
         @Override
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
-
         }
 
         @Override

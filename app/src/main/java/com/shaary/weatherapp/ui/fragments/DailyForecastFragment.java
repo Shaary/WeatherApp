@@ -29,7 +29,6 @@ public class DailyForecastFragment extends Fragment implements DailyForecastView
     RecyclerView.LayoutManager layoutManager;
 
     public static DailyForecastFragment newInstance(Forecast forecast) {
-
         Bundle args = new Bundle();
         args.putParcelable("forecast", forecast);
         DailyForecastFragment fragment = new DailyForecastFragment();

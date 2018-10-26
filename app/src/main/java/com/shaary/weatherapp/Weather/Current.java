@@ -97,6 +97,18 @@ public class Current implements Parcelable{
         return timeString;
     }
 
+    public String getWeather() {
+        if (temperature < 50) {
+            return "cold";
+        }
+        if (temperature > 68) {
+            return "hot";
+        }
+        else {
+            return "mild";
+        }
+    }
+
     @Override
     public int describeContents() {
         return 0;
