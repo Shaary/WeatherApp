@@ -32,7 +32,6 @@ public class ForecastFragment extends Fragment implements ForecastFragmentView{
     @BindView(R.id.humidityValue) TextView humidity;
     @BindView(R.id.precipValue) TextView precipChance;
     @BindView(R.id.timeValue) TextView time;
-    @BindView(R.id.hourlyButton) Button hourlyButton;
     @BindView(R.id.refreshImageView) ImageView refreshImageView;
 
     public interface OnImageClickListener {

@@ -1,7 +1,9 @@
 package com.shaary.weatherapp.ui.fragments;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -53,7 +55,14 @@ public class HourlyForecastFragment extends Fragment implements HourlyForecastVi
     @Override
     public void updateDisplay(Forecast forecast) {
         hourlyAdapter = new HourlyAdapter(forecast.getHourly(), forecast.getTimezone());
-        layoutManager = new LinearLayoutManager(getActivity());
+        int orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // In landscape
+            layoutManager = new GridLayoutManager(getActivity(), 2);
+        } else {
+            // In portrait
+            layoutManager = new LinearLayoutManager(getActivity());
+        }
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(hourlyAdapter);
     }
