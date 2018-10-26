@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.shaary.weatherapp.R;
+import com.shaary.weatherapp.Weather.Current;
 import com.shaary.weatherapp.Weather.Forecast;
 import com.shaary.weatherapp.adapter.HourlyAdapter;
 import com.shaary.weatherapp.ui.HourlyForecastView;
@@ -28,12 +29,24 @@ public class HourlyForecastFragment extends Fragment implements HourlyForecastVi
     private HourlyAdapter hourlyAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
+    public static HourlyForecastFragment newInstance(Forecast forecast) {
+
+        Bundle args = new Bundle();
+        args.putParcelable("forecast", forecast);
+        HourlyForecastFragment fragment = new HourlyForecastFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_hourly_forecast, container, false);
         ButterKnife.bind(this, view);
-        Log.d(TAG, "Hourly onCreateView: was called");
+
+        Forecast forecast = getArguments().getParcelable("forecast");
+        updateDisplay(forecast);
+
         return view;
     }
 
@@ -43,7 +56,6 @@ public class HourlyForecastFragment extends Fragment implements HourlyForecastVi
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(hourlyAdapter);
-
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+//Takes class type as a parameter and returns matching adapter
 public abstract class BaseAdapter<T, H extends BaseViewHolder<T>> extends RecyclerView.Adapter<H>  {
 
     private final Class<H> myAdapter;

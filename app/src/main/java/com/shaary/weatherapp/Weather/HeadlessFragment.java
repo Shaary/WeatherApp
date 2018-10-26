@@ -28,10 +28,10 @@ public class HeadlessFragment extends Fragment implements ForecastDataRepo{
         void onPostExecute(Forecast forecast);
     }
 
-    private ForecastCallBacks forecastCallBacks;
+    private static ForecastCallBacks forecastCallBacks;
 
     //private ForecastListener listener;
-    private Forecast forecast;
+    private static Forecast forecast;
 //    private ForecastCall forecastCall;
 
     private static final String TAG = HeadlessFragment.class.getSimpleName();
@@ -64,8 +64,12 @@ public class HeadlessFragment extends Fragment implements ForecastDataRepo{
         forecastCallBacks = null;
     }
 
+    public Forecast getForecast() {
+        return forecast;
+    }
+
     //Calls for the forecast
-    private class ForecastCall extends AsyncTask<Void, Void, Forecast> {
+    private static class ForecastCall extends AsyncTask<Void, Void, Forecast> {
 
         @Override
         protected void onPreExecute() {

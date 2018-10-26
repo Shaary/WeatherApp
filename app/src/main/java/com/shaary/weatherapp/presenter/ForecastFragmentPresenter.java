@@ -18,9 +18,8 @@ public class ForecastFragmentPresenter implements AsyncDataCall.ForecastListener
     }
 
     //Might use this method for refresh button
-    public void loadData() {
-        //Forecast forecast = dataRepo.sendForecast();
-        dataCall.execute();
+    public void loadData(Forecast forecast) {
+        view.updateDisplay(forecast);
     }
 
     //Sends Forecast object to view

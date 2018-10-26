@@ -28,12 +28,23 @@ public class DailyForecastFragment extends Fragment implements DailyForecastView
     DailyAdapter dailyAdapter;
     RecyclerView.LayoutManager layoutManager;
 
+    public static DailyForecastFragment newInstance(Forecast forecast) {
+
+        Bundle args = new Bundle();
+        args.putParcelable("forecast", forecast);
+        DailyForecastFragment fragment = new DailyForecastFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_daily_forecast, container, false);
         ButterKnife.bind(this, view);
-        Log.d(TAG, "onCreateView: was called");
+
+        Forecast forecast = getArguments().getParcelable("forecast");
+        updateDisplay(forecast);
         return view;
     }
 

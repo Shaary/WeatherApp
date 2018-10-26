@@ -3,6 +3,7 @@ package com.shaary.weatherapp.ui.fragments;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -40,16 +41,24 @@ public class ForecastFragment extends Fragment implements ForecastFragmentView{
 
     OnImageClickListener listener;
 
-
     public static final String TAG = ForecastFragment.class.getSimpleName();
 
-    ForecastFragmentPresenter presenter;
+    public static ForecastFragment newInstance(Forecast forecast) {
+        Bundle args = new Bundle();
+        args.putParcelable("forecast", forecast);
+        ForecastFragment fragment = new ForecastFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_forecast, container, false);
         ButterKnife.bind(this, view);
+
+        Forecast forecast = getArguments().getParcelable("forecast");
+        updateDisplay(forecast);
 
         refreshImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +75,6 @@ public class ForecastFragment extends Fragment implements ForecastFragmentView{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -78,6 +86,7 @@ public class ForecastFragment extends Fragment implements ForecastFragmentView{
     @Override
     public void updateDisplay(Forecast forecast) {
         Current current = forecast.getCurrently();
+
         setTemperatureText(current.getTemperature());
         setHumidityText(current.getHumidity());
         setPrecipChanceText((int) current.getPrecipProbability());

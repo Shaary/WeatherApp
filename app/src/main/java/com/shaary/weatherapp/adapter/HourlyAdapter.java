@@ -23,9 +23,6 @@ import java.util.TimeZone;
 public class HourlyAdapter extends BaseAdapter<HourData, HourlyAdapter.ViewHolder> {
 
     private static final String TAG = HourlyAdapter.class.getSimpleName();
-//    private HourData[] hours;
-//    private String timezone;
-//    private Context context;
 
     public HourlyAdapter(HourData[] hours, String timezone) {
         super(HourlyAdapter.ViewHolder.class, hours, timezone);
@@ -35,29 +32,6 @@ public class HourlyAdapter extends BaseAdapter<HourData, HourlyAdapter.ViewHolde
     public int getLayoutId() {
         return R.layout.hourly_list_item;
     }
-
-//    @NonNull
-//    @Override
-//    public HourlyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        View view = LayoutInflater.from(parent.getContext())
-//                .inflate(R.layout.hourly_list_item, parent, false);
-//        return new HourlyAdapter.ViewHolder(view);
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(@NonNull HourlyAdapter.ViewHolder holder, int position) {
-//        Log.d(TAG, "onBindViewHolder: is called");
-//        holder.summary.setText(hours[position].getSummary());
-//        holder.temperature.setText(hours[position].getTemperature());
-//        holder.timeLabel.setText(getHour(hours[position].getTime()));
-//        Drawable drawable = ContextCompat.getDrawable(context, hours[position].getIcon());
-//        holder.icon.setImageDrawable(drawable);
-//    }
-//
-//    @Override
-//    public int getItemCount() {
-//        return hours.length;
-//    }
 
     public static class ViewHolder extends BaseViewHolder<HourData>{
         TextView summary;

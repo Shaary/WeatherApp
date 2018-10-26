@@ -20,10 +20,6 @@ import java.util.TimeZone;
 import java.util.zip.Inflater;
 
 public class DailyAdapter extends BaseAdapter<DayData, DailyAdapter.ViewHolder> {
-//
-//    private DayData[] dayData;
-//    private String timezone;
-//    private Context context;
 
     public DailyAdapter(DayData[] dayData, String timezone) {
         super(DailyAdapter.ViewHolder.class, dayData, timezone);
@@ -33,27 +29,6 @@ public class DailyAdapter extends BaseAdapter<DayData, DailyAdapter.ViewHolder> 
     public int getLayoutId() {
         return R.layout.daily_list_item;
     }
-
-//    @NonNull
-//    @Override
-//    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        View view = LayoutInflater.from(parent.getContext())
-//                .inflate(R.layout.daily_list_item, parent, false);
-//        return new DailyAdapter.ViewHolder(view);
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//        holder.dayLabel.setText(getDayOfTheWeek(dayData[position].getTime()));
-//        holder.temperatureLabel.setText(dayData[position].getTemperatureHigh());
-//        Drawable drawable = ContextCompat.getDrawable(context, dayData[position].getIcon());
-//        holder.icon.setImageDrawable(drawable);
-//    }
-//
-//    @Override
-//    public int getItemCount() {
-//        return dayData.length;
-//    }
 
     public static class ViewHolder extends BaseViewHolder<DayData> {
         TextView dayLabel;
@@ -65,7 +40,6 @@ public class DailyAdapter extends BaseAdapter<DayData, DailyAdapter.ViewHolder> 
             dayLabel.setText(getDayOfTheWeek(data.getTime(), timezone));
             temperatureLabel.setText(data.getTemperatureHigh());
             icon.setImageResource(data.getIcon());
-
         }
 
         @Override
@@ -73,13 +47,13 @@ public class DailyAdapter extends BaseAdapter<DayData, DailyAdapter.ViewHolder> 
             dayLabel = itemView.findViewById(R.id.dayNameLabel);
             temperatureLabel = itemView.findViewById(R.id.temperatureLabel);
             icon = itemView.findViewById(R.id.iconImageView);
-
         }
 
         public ViewHolder(View itemView) {
             super(itemView);
         }
     }
+
     public static String getDayOfTheWeek(int time, String timezone) {
         SimpleDateFormat formatter = new SimpleDateFormat("EEEE");
         formatter.setTimeZone(TimeZone.getTimeZone(timezone));
