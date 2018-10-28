@@ -40,6 +40,10 @@ public class MainActivity extends AppCompatActivity implements HeadlessFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        boolean tableSize = getResources().getBoolean(R.bool.isTab);
+        if (!tableSize) {
+
+        }
 
         //Call headless fragment
         fragmentManager = getFragmentManager();
@@ -86,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements HeadlessFragment.
         tabLayout.setupWithViewPager(pager);
     }
 
+    //Check if refresh button updates the screen
 
     @Override
     public void refreshWeather() {

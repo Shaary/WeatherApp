@@ -14,7 +14,9 @@ import android.view.ViewGroup;
 import com.shaary.weatherapp.R;
 import com.shaary.weatherapp.Weather.Current;
 import com.shaary.weatherapp.Weather.Forecast;
+import com.shaary.weatherapp.adapter.BaseAdapter;
 import com.shaary.weatherapp.adapter.HourlyAdapter;
+import com.shaary.weatherapp.ui.FragmentWithRecyclerBase;
 import com.shaary.weatherapp.ui.HourlyForecastView;
 
 import butterknife.BindView;
@@ -23,13 +25,9 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HourlyForecastFragment extends Fragment implements HourlyForecastView{
+public class HourlyForecastFragment extends FragmentWithRecyclerBase{
 
     private static final String TAG = HourlyForecastFragment.class.getSimpleName();
-    @BindView(R.id.hourly_recycler_view) RecyclerView recyclerView;
-
-    private HourlyAdapter hourlyAdapter;
-    private RecyclerView.LayoutManager layoutManager;
 
     public static HourlyForecastFragment newInstance(Forecast forecast) {
 
@@ -41,40 +39,7 @@ public class HourlyForecastFragment extends Fragment implements HourlyForecastVi
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_hourly_forecast, container, false);
-        ButterKnife.bind(this, view);
-
-        Forecast forecast = getArguments().getParcelable("forecast");
-        updateDisplay(forecast);
-
-        return view;
+    public BaseAdapter getAdapter() {
+        return new HourlyAdapter(forecast.getHourly(), forecast.getTimezone());
     }
-
-    @Override
-    public void updateDisplay(Forecast forecast) {
-        hourlyAdapter = new HourlyAdapter(forecast.getHourly(), forecast.getTimezone());
-        int orientation = getResources().getConfiguration().orientation;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            // In landscape
-            layoutManager = new GridLayoutManager(getActivity(), 2);
-        } else {
-            // In portrait
-            layoutManager = new LinearLayoutManager(getActivity());
-        }
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(hourlyAdapter);
-    }
-
-    @Override
-    public void setIcon(int icon) {
-
-    }
-
-    @Override
-    public void setTime(String time) {
-
-    }
-
 }
