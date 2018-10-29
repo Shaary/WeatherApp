@@ -8,40 +8,11 @@
     android:orientation="vertical"
     android:id="@+id/main_layout">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <FrameLayout
-            android:id="@+id/currentFragmentContainer"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="5dp">
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/hourFragmentContainer"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="5dp">
-        </FrameLayout>
-
-    </LinearLayout>
-
     <FrameLayout
-        android:id="@+id/dayFragmentContainer"
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="5dp">
+        android:layout_height="match_parent">
+
     </FrameLayout>
 
-    </LinearLayout>
+</LinearLayout>

@@ -5,6 +5,10 @@ import android.os.Parcelable;
 
 import com.shaary.weatherapp.R;
 
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
+
 public class Forecast implements Parcelable{
 
     private double latitude;
@@ -110,7 +114,6 @@ public class Forecast implements Parcelable{
         }
         return iconId;
     }
-
 
     @Override
     public int describeContents() {

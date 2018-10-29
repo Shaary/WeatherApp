@@ -1,10 +1,10 @@
 package com.shaary.weatherapp.Weather;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 
 import com.google.gson.Gson;
 import com.shaary.weatherapp.ForecastDataRepo;
@@ -36,8 +36,8 @@ public class HeadlessFragment extends Fragment implements ForecastDataRepo{
 
     private static final String TAG = HeadlessFragment.class.getSimpleName();
     static String apiKey = "ab9da84839d065473cc10e0e9f3fc4cc";
-    static double latitude = 37.8267;
-    static double longitude = -122.42330;
+    static double latitude = 51.083738;
+    static double longitude = -114.234316;
 
     static String apiCall = "https://api.darksky.net/forecast/"
             + apiKey + "/" + latitude + "," + longitude;

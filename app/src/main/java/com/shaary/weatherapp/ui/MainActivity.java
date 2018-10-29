@@ -1,28 +1,27 @@
 package com.shaary.weatherapp.ui;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.LinearLayout;
 
 import com.shaary.weatherapp.R;
-import com.shaary.weatherapp.Weather.Current;
 import com.shaary.weatherapp.Weather.Forecast;
 import com.shaary.weatherapp.Weather.HeadlessFragment;
-import com.shaary.weatherapp.adapter.SelectionsPagerAdapter;
-import com.shaary.weatherapp.ui.fragments.ForecastFragment;
+import com.shaary.weatherapp.ui.fragments.BaseForecastFragment;
+import com.shaary.weatherapp.ui.fragments.CurrentForecastFragment;
+import com.shaary.weatherapp.ui.fragments.PhoneForecastFragment;
+import com.shaary.weatherapp.ui.fragments.TabletForecastFragment;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends AppCompatActivity implements HeadlessFragment.ForecastCallBacks, ForecastFragment.OnImageClickListener {
+public class MainActivity extends AppCompatActivity implements HeadlessFragment.ForecastCallBacks, CurrentForecastFragment.OnImageClickListener {
 
     public static final String FORECAST = "forecast";
     private static final String TAG_HEADLESS_FRAGMENT = "headless_fragment";
@@ -31,30 +30,24 @@ public class MainActivity extends AppCompatActivity implements HeadlessFragment.
     private FragmentManager fragmentManager;
     private HeadlessFragment headlessFragment;
 
-    @BindView(R.id.main_layout) LinearLayout linearLayout;
-    @BindView(R.id.tabs)TabLayout tabLayout;
-    @BindView(R.id.pager) ViewPager pager;
+    private boolean isTablet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        boolean tableSize = getResources().getBoolean(R.bool.isTab);
-        if (!tableSize) {
-
-        }
+        isTablet = getResources().getBoolean(R.bool.isTab);
 
         //Call headless fragment
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         headlessFragment = (HeadlessFragment) fragmentManager
                 .findFragmentByTag(TAG_HEADLESS_FRAGMENT);
         if (headlessFragment == null) {
             refreshWeather();
         } else {
             Forecast forecast = headlessFragment.getForecast();
-            setAdapter(forecast);
-            setBackgroundColor(forecast);
+            setActivityFragment(forecast);
         }
     }
 
@@ -77,20 +70,37 @@ public class MainActivity extends AppCompatActivity implements HeadlessFragment.
     @Override
     public void onPostExecute(Forecast forecast) {
         //Sets adapter with 3 fragments after the data was loaded
-        setAdapter(forecast);
-        setBackgroundColor(forecast);
+        setActivityFragment(forecast);
+        Log.d(TAG, "onPostExecute: was called");
+
     }
 
-    private void setAdapter(Forecast forecast) {
-        SelectionsPagerAdapter pagerAdapter =
+    private void setActivityFragment(Forecast forecast) {
+        Fragment fragment;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                new SelectionsPagerAdapter(getSupportFragmentManager(), forecast);
-        pager.setOffscreenPageLimit(3);
-        pager.setAdapter(pagerAdapter);
-        tabLayout.setupWithViewPager(pager);
+        // If the current device is a tablet, then insert a Tablet Fragment
+        Log.d(TAG, "setActivityFragment: isTablet" + isTablet);
+        if(isTablet) {
+            fragment = BaseForecastFragment.newInstance(
+                    TabletForecastFragment.class,
+                    forecast
+            );
+        }
+        // If the current device is a phone, then insert a Phone Fragment
+        else {
+            fragment = BaseForecastFragment.newInstance(
+                    PhoneForecastFragment.class,
+                    forecast
+            );
+        }
+
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
     }
 
-    //Check if refresh button updates the screen
+    //TODO: Check if refresh button updates the screen
 
     @Override
     public void refreshWeather() {
@@ -102,21 +112,7 @@ public class MainActivity extends AppCompatActivity implements HeadlessFragment.
         }
     }
 
-    private void setBackgroundColor(Forecast forecast) {
-        Current current = forecast.getCurrently();
-        switch (current.getWeather()) {
-            case "cold" :
-                pager.setBackgroundResource(R.drawable.cold_weather_gradient);
-                break;
-            case "hot" :
-                pager.setBackgroundResource(R.drawable.hot_weather_gradient);
-                break;
-            case "mild":
-                pager.setBackgroundResource(R.drawable.mild_weather_gradient);
-                break;
-        }
 
-    }
 
     private boolean isNetworkAvailable() {
         ConnectivityManager manager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);

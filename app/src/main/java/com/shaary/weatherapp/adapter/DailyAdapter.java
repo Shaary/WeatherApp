@@ -57,7 +57,7 @@ public class DailyAdapter extends BaseAdapter<DayData, DailyAdapter.ViewHolder> 
     public static String getDayOfTheWeek(int time, String timezone) {
         SimpleDateFormat formatter = new SimpleDateFormat("EEEE");
         formatter.setTimeZone(TimeZone.getTimeZone(timezone));
-        Date dateTime = new Date(time * 1000);
+        Date dateTime = new Date();
         return formatter.format(dateTime);
     }
 }

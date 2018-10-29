@@ -53,13 +53,13 @@ public abstract class FragmentWithRecyclerBase extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fragment_with_recycler_base, container, false);
         ButterKnife.bind(this, view);
-        setLayoutManagaer();
+        setLayoutManager();
         BaseAdapter adapter = getAdapter();
         recyclerView.setAdapter(adapter);
         return view;
     }
 
-    private void setLayoutManagaer() {
+    private void setLayoutManager() {
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // In landscape

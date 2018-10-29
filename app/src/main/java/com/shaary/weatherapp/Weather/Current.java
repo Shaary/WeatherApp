@@ -7,7 +7,9 @@ import com.shaary.weatherapp.R;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class Current implements Parcelable{
@@ -89,9 +91,9 @@ public class Current implements Parcelable{
     }
 
     public String getFormattedTime(String timezone) {
-        SimpleDateFormat formatter = new SimpleDateFormat("h:mm a");
+        SimpleDateFormat formatter = new SimpleDateFormat("h:mm a", Locale.US);
         formatter.setTimeZone(TimeZone.getTimeZone(timezone));
-        Date dateTime = new Date(time * 1000);
+        Date dateTime = new Date();
         String timeString = formatter.format(dateTime);
 
         return timeString;

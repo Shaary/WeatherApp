@@ -1,4 +1,4 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
-    <bool name="isTab">false</bool>
+    <bool name="isTab">true</bool>
 </resources>
